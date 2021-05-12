@@ -22,7 +22,7 @@ module.exports = {
         name: "child1",
         filename: "remoteEntry.js",
         exposes: {
-            './AppModule': './projects/child1/src/app/app.module.ts',
+            './AppRootModule': './projects/child1/src/app/app-root.module.ts',
         },
 
         shared: {

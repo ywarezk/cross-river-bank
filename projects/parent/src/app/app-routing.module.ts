@@ -15,11 +15,11 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
         path: 'child',
         loadChildren: async () => {
           const module = await loadRemoteModule({
-            exposedModule: './AppModule',
+            exposedModule: './AppRootModule',
             remoteName: 'child1',
             remoteEntry: 'http://localhost:3001/remoteEntry.js'
           });
-          return module.AppModule;
+          return module.AppRootModule;
         }
       }
     ])

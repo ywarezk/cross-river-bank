@@ -386,3 +386,90 @@ export class AppComponent {
 }
 
 ```
+
+## 10. The parent needs to load the AppRootModule
+
+**child1 - webpack.config.js**
+
+set the exposed module to be the AppRootModule
+
+```js
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+const mf = require("@angular-architects/module-federation/webpack");
+const path = require("path");
+
+const sharedMappings = new mf.SharedMappings();
+sharedMappings.register(
+  path.join(__dirname, '../../tsconfig.json'),
+  [/* mapped paths to share */]);
+
+module.exports = {
+  output: {
+    uniqueName: "child1"
+  },
+  optimization: {
+    // Only needed to bypass a temporary bug
+    runtimeChunk: false
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+
+        // For remotes (please adjust)
+        name: "child1",
+        filename: "remoteEntry.js",
+        exposes: {
+            './AppRootModule': './projects/child1/src/app/app-root.module.ts',
+        },
+
+        shared: {
+          "@angular/core": { singleton: true, strictVersion: true },
+          "@angular/common": { singleton: true, strictVersion: true },
+          "@angular/router": { singleton: true, strictVersion: true },
+
+          ...sharedMappings.getDescriptors()
+        }
+
+    }),
+    sharedMappings.getPlugin(),
+  ],
+};
+
+```
+
+**parent - app-routing.module.ts**
+
+```typescript
+
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from './home.component';
+import { loadRemoteModule } from '@angular-architects/module-federation';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RouterModule.forRoot([
+      {
+        path: '',
+        component: HomeComponent
+      },
+      {
+        path: 'child',
+        loadChildren: async () => {
+          const module = await loadRemoteModule({
+            exposedModule: './AppRootModule',
+            remoteName: 'child1',
+            remoteEntry: 'http://localhost:3001/remoteEntry.js'
+          });
+          return module.AppRootModule;
+        }
+      }
+    ])
+  ],
+  exports: [RouterModule],
+  providers: [],
+})
+export class AppRoutingModule {}
+
+
+```
