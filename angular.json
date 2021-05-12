@@ -249,6 +249,46 @@
           }
         }
       }
+    },
+    "@river/auth": {
+      "projectType": "library",
+      "root": "projects/river/auth",
+      "sourceRoot": "projects/river/auth/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/river/auth/tsconfig.lib.json",
+            "project": "projects/river/auth/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/river/auth/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/river/auth/src/test.ts",
+            "tsConfig": "projects/river/auth/tsconfig.spec.json",
+            "karmaConfig": "projects/river/auth/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/river/auth/tsconfig.lib.json",
+              "projects/river/auth/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "parent"

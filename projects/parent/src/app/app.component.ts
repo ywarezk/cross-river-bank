@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { setFirstName } from '@river/auth';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +8,9 @@ import { Component } from '@angular/core';
     <h1>
       Hello parent app
     </h1>
+    <button (click)="changeName()">
+      Click to change name
+    </button>
 
     <a routerLink="/">home</a>
     <a routerLink="/child">child</a>
@@ -13,4 +18,11 @@ import { Component } from '@angular/core';
   `,
 })
 export class AppComponent {
+
+  constructor(private _store: Store) { }
+
+  changeName() {
+    this._store.dispatch(setFirstName({ firstName: Math.random().toString() }));
+  }
+
 }
