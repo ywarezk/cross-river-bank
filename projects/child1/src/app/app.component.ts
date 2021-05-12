@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
     <h1>
       This is the child app
     </h1>
+
+    <router-outlet></router-outlet>
   `,
 })
 export class AppComponent {
