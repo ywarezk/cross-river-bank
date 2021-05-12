@@ -512,5 +512,130 @@ shared: {
 
 It's more appropriate to place the shared data in a library.
 
+```bash
+> npx ng g library @river/auth
 ```
+
+In that library delete all the lib folder and place these files:
+
+**auth.module.ts**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './auth.reducer';
+
+@NgModule({
+  declarations: [
+
+  ],
+  imports: [
+    StoreModule.forFeature('auth', {
+      user: userReducer
+    })
+  ],
+  exports: [
+  ]
+})
+export class AuthModule { }
+
+```
+
+**auth.actions.ts**
+
+```typescript
+import { createAction, props } from '@ngrx/store';
+
+export const setFirstName = createAction(
+  '[auth] setFirstName',
+  props<{firstName: string}>()
+)
+
+```
+
+**auth.reducer.ts**
+
+```
+import { createReducer, on } from '@ngrx/store';
+import { setFirstName } from './auth.actions';
+
+export const userReducer = createReducer(
+  {
+    firstName: 'Yariv',
+    lastName: 'Katz'
+  },
+  on(setFirstName, (state, action) => ({...state, firstName: action.firstName}))
+)
+
+```
+
+## 13. we need to the federation about this library
+
+Modify the **webpack.config.js** of the parent and child1
+
+```js
+const sharedMappings = new mf.SharedMappings();
+sharedMappings.register(
+  path.join(__dirname, '../../tsconfig.json'),
+  ['@river/auth']);
+```
+
+## 14. parent and child1 are sharing redux data
+
+we can now access the data in the child1 and change the data in the parent and child1 will be updated.
+
+In the parent **app.component.ts** add this to change the data
+
+```typescript
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { setFirstName } from '@river/auth';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1>
+      Hello parent app
+    </h1>
+    <button (click)="changeName()">
+      Click to change name
+    </button>
+
+    <a routerLink="/">home</a>
+    <a routerLink="/child">child</a>
+    <router-outlet></router-outlet>
+  `,
+})
+export class AppComponent {
+
+  constructor(private _store: Store) { }
+
+  changeName() {
+    this._store.dispatch(setFirstName({ firstName: Math.random().toString() }));
+  }
+
+}
+
+```
+
+In this child1 **home.component.ts** add this to read the data
+
+```typescript
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <h1>
+      Child homepage {{ (user$ | async).firstName }} {{ (user$ | async).lastName }}
+    </h1>
+  `,
+})
+export class HomeComponent {
+  user$ = this._store.select((state: any) => state.auth.user)
+
+  constructor(private _store: Store) {}
+}
+
 ```
