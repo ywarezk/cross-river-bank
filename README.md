@@ -473,3 +473,44 @@ export class AppRoutingModule {}
 
 
 ```
+
+## 11. Sharing data between parent and child using ngrx
+
+Add @ngrx/store to the parent and @ngrx/store-devtools to the parent
+
+```bash
+> cd projects/parent/src/app
+> npx ng add @ngrx/store@latest
+> npx ng add @ngrx/store-devtools@latest
+```
+
+Add @ngrx/store to the child and @ngrx/store-devtools to the child
+
+```bash
+> cd projects/child1/src/app
+> npx ng add @ngrx/store@latest
+> npx ng add @ngrx/store-devtools@latest
+```
+
+Notice that for the child those models will be included in the **AppModule** which is not exposed to the parent which is using **AppRootModule**  
+
+
+Add **@ngrx/store** to the webpack.config.js of the parent and child1
+
+```
+shared: {
+  "@angular/core": { singleton: true, strictVersion: true },
+  "@angular/common": { singleton: true, strictVersion: true },
+  "@angular/router": { singleton: true, strictVersion: true },
+  "@ngrx/store": { singleton: true, strictVersion: true },
+
+  ...sharedMappings.getDescriptors()
+}
+```
+
+## 12. Library for shared data
+
+It's more appropriate to place the shared data in a library.
+
+```
+```
