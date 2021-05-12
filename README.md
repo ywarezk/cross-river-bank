@@ -200,4 +200,67 @@ export class AppModule { }
 
 ```
 
+## 8. Load the remote module from child in parent
+
+**app-routing.module.ts**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from './home.component';
+import { loadRemoteModule } from '@angular-architects/module-federation';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RouterModule.forRoot([
+      {
+        path: '',
+        component: HomeComponent
+      },
+      {
+        path: 'child',
+        loadChildren: async () => {
+          const module = await loadRemoteModule({
+            exposedModule: './AppModule',
+            remoteName: 'child1',
+            remoteEntry: 'http://localhost:3001/remoteEntry.js'
+          });
+          return module.AppModule;
+        }
+      }
+    ])
+  ],
+  exports: [RouterModule],
+  providers: [],
+})
+export class AppRoutingModule {}
+
+```
+
+**app.component.ts**
+
+```typescript
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1>
+      Hello parent app
+    </h1>
+
+    <a routerLink="/">home</a>
+    <a routerLink="/child">child</a>
+    <router-outlet></router-outlet>
+  `,
+})
+export class AppComponent {
+}
+
+
+```
+
+
 
