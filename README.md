@@ -26,3 +26,7 @@ Install webpack5
 
 ## 3. Create the projects
 
+```bash
+> npx ng g application parent
+> 
+```
