@@ -132,3 +132,72 @@ module.exports = {
 
 ```
 
+## 7. Add routing to the parent
+
+**app-routing.module.ts**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from './home.component';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RouterModule.forRoot([
+      {
+        path: '',
+        component: HomeComponent
+      }
+    ])
+  ],
+  exports: [RouterModule],
+  providers: [],
+})
+export class AppRoutingModule {}
+
+```
+
+**home.component.ts**
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  template: `
+    <h1>Homepage</h1>
+  `,
+})
+export class HomeComponent  {
+}
+
+```
+
+**app.module.ts**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+```
+
+
