@@ -1,27 +1,28 @@
-# CrossRiverBank3
+# Micro Frontends Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.12.
+How to create a micro frontend workspace using angular 11.
 
-## Development server
+## 1. Create a new workspace
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```bash
+> npx @angular/cli new cross-river-bank3 --create-application=false --package-manager=yarn
+```
 
-## Code scaffolding
+## 2. Update webpack
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+**package.json**
 
-## Build
+```
+"resolutions": {
+  "webpack": "^5.0.0"
+}
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Install webpack5
 
-## Running unit tests
+```bash
+> yarn
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 3. Create the projects
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
