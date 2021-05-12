@@ -28,5 +28,6 @@ Install webpack5
 
 ```bash
 > npx ng g application parent
-> 
+> npx ng g application child1
 ```
+
