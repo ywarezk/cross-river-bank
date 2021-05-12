@@ -263,4 +263,126 @@ export class AppComponent {
 ```
 
 
+## 9. Added routing to the child
 
+The child will not expose the **AppModule** rather it will create a child module of the **AppModule** for the entire app.  
+We do this so we can add the **RouterModule.forRoot** in the **AppModule** and for child in the child module.  
+We expose to the parent not the **AppModule** but the child.
+
+**child1 - AppModule**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+```
+
+**child1 - app-routing.module.ts**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RouterModule.forRoot([
+      {
+        path: '',
+        loadChildren: () => import('./app-root.module').then(m => m.AppRootModule)
+      }
+    ])
+  ],
+  exports: [
+    RouterModule
+  ],
+  providers: [],
+})
+export class AppRoutingModule {}
+
+```
+
+**child1 - app-root.module.ts**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HomeComponent } from './home.component';
+import { AppRootRoutingModule } from './app-root-routing.module';
+
+ @NgModule({
+    declarations: [
+      HomeComponent
+    ],
+    imports: [
+      CommonModule,
+      AppRootRoutingModule
+    ],
+    exports: [],
+    providers: [],
+ })
+ export class AppRootModule {}
+
+```
+
+**child1 - app-root-routing.module.ts**
+
+```typescript
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from './home.component';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RouterModule.forChild([
+      {
+        path: '',
+        component: HomeComponent
+      }
+    ])
+  ],
+  exports: [
+    RouterModule
+  ],
+  providers: [],
+})
+export class AppRootRoutingModule {}
+
+```
+
+**child1 - app.component.ts**
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1>
+      This is the child app
+    </h1>
+
+    <router-outlet></router-outlet>
+  `,
+})
+export class AppComponent {
+}
+
+```
