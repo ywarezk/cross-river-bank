@@ -8,6 +8,9 @@ import { Store } from '@ngrx/store';
       Child homepage {{ (user$ | async).firstName }} {{ (user$ | async).lastName }}
     </h1>
   `,
+  styleUrls: [
+    'home.component.scss'
+  ]
 })
 export class HomeComponent {
   user$ = this._store.select((state: any) => state.auth.user)

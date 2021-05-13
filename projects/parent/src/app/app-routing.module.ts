@@ -12,6 +12,8 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
         component: HomeComponent
       },
       {
+        //
+        // /child/hello
         path: 'child',
         loadChildren: async () => {
           const module = await loadRemoteModule({

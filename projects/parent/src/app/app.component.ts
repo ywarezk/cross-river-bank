@@ -15,6 +15,13 @@ import { setFirstName } from '@river/auth';
     <a routerLink="/">home</a>
     <a routerLink="/child">child</a>
     <router-outlet></router-outlet>
+
+    <!--
+      ()
+      <router-outlet name="child1"></router-outlet>
+
+      <router-outlet name="child2"></router-outlet>
+    -->
   `,
 })
 export class AppComponent {

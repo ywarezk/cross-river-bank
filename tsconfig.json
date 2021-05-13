@@ -5,6 +5,14 @@
     "paths": {
       "@river/auth": [
         "projects/river/auth/src/public-api.ts"
+      ],
+      "@river/styles": [
+        "dist/river/styles/river-styles",
+        "dist/river/styles"
+      ],
+      "@river/styles1": [
+        "dist/river/styles1/river-styles1",
+        "dist/river/styles1"
       ]
     },
     "baseUrl": "./",
